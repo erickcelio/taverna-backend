@@ -14,6 +14,7 @@ export const start = async () => {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
+    playground: true,
     async context({ req }) {
       const user = await authenticate(req)
       return { user }
