@@ -1,11 +1,6 @@
-import { User } from '../types/user/user.model'
+import User from '../types/user/user.model'
 import config from '../config'
-import cuid from 'cuid'
 import jwt from 'jsonwebtoken'
-
-export const newApiKey = () => {
-  return cuid()
-}
 
 export const generateToken = params =>
   jwt.sign({ ...params }, config.secrets.jwt, {
@@ -19,7 +14,7 @@ export const authenticate = async req => {
     return
   }
 
-  return jwt.verify(token, process.env.API_KEY, async (err, decoded) => {
+  return jwt.verify(token, config.secrets.jwt, async (err, decoded) => {
     if (err) {
       throw new Error('invalid_token')
     }

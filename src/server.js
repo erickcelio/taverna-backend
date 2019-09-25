@@ -23,9 +23,7 @@ export const start = async () => {
     }
   })
 
-  console.log('here 1')
   await connect(config.dbUrl)
-  console.log('here 2')
   const { url } = await server.listen({ port: config.port })
 
   console.log(`Taverna GraphQL server ready at ${url}`)
