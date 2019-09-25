@@ -1,21 +1,34 @@
 import { User } from '../types/user/user.model'
+import config from '../config'
 import cuid from 'cuid'
+import jwt from 'jsonwebtoken'
 
 export const newApiKey = () => {
   return cuid()
 }
 
-export const authenticate = async req => {
-  const apiKey = req.headers.authorization
+export const generateToken = params =>
+  jwt.sign({ ...params }, config.secrets.jwt, {
+    expiresIn: config.secrets.jwtExp
+  })
 
-  if (!apiKey) {
+export const authenticate = async req => {
+  const token = req.headers.authorization
+
+  if (!token) {
     return
   }
 
-  const user = await User.findOne({ apiKey })
-    .select('-password')
-    .lean()
-    .exec()
+  return jwt.verify(token, process.env.API_KEY, async (err, decoded) => {
+    if (err) {
+      throw new Error('invalid_token')
+    }
 
-  return user
+    const user = await User.findById(decoded.id)
+      .select('-password')
+      .lean()
+      .exec()
+
+    return user
+  })
 }
