@@ -1,6 +1,7 @@
 import { ApolloServer } from 'apollo-server'
 import { authenticate } from './utils/auth'
 import config from './config'
+import { connect } from './db'
 import { loadResolver } from './utils/resolver'
 import { loadTypeSchema } from './utils/schema'
 import { merge } from 'lodash'
@@ -21,7 +22,9 @@ export const start = async () => {
     }
   })
 
-  // await connect(config.dbUrl)
+  console.log('here 1')
+  await connect(config.dbUrl)
+  console.log('here 2')
   const { url } = await server.listen({ port: config.port })
 
   console.log(`Taverna GraphQL server ready at ${url}`)

@@ -1,16 +1,18 @@
-import { User } from './user.model'
 import { AuthenticationError } from 'apollo-server'
-import { newApiKey } from '../../utils/auth'
+import User from './user.model'
+import { generateToken } from '../../utils/auth'
+import { isEmpty } from 'lodash'
 
 const me = (_, args, ctx) => {
   if (!ctx.user) {
     throw new AuthenticationError()
   }
-  return ctx.user
+
+  return User.findById(ctx.user._id)
 }
 
 const updateMe = (_, args, ctx) => {
-  if (!ctx.user) {
+  if (isEmpty(ctx.user)) {
     throw new AuthenticationError()
   }
 
@@ -20,16 +22,53 @@ const updateMe = (_, args, ctx) => {
     .exec()
 }
 
-const signup = (_, args) => {
-  return User.create({ ...args.input, apiKey: newApiKey() })
+const signUp = async (_, args) => {
+  const { email, username } = args.input
+
+  const user = await User.find().findByEmailOrUsername({ email, username })
+
+  if (user) {
+    throw new Error('user_already_exists')
+  }
+
+  let newUser = await User.create({ ...args.input })
+
+  newUser = newUser.toObject()
+
+  Reflect.deleteProperty(newUser, 'password')
+
+  return newUser
+}
+
+const signIn = async (_, args) => {
+  const { username, password } = args.input
+
+  const user = await User.find().findByEmailOrUsername({
+    username,
+    email: username
+  })
+
+  if (!user) {
+    throw new Error('user_not_found')
+  }
+
+  await user.checkPassword(password)
+
+  user.password = undefined
+
+  return {
+    user,
+    token: generateToken({ id: user.id })
+  }
 }
 
 export default {
   Query: {
-    me
+    me,
+    signIn
   },
   Mutation: {
     updateMe,
-    signup
+    signUp
   }
 }

@@ -1,4 +1,4 @@
-import { User } from './src/types/user/user.model'
+import User from './src/types/user/user.model'
 import _ from 'lodash'
 import config from './src/config'
 import cuid from 'cuid'
@@ -18,31 +18,31 @@ const remove = collection =>
   })
 
 beforeEach(async done => {
-  // const db = cuid()
-  // function clearDB() {
-  //  return Promise.all(_.map(mongoose.connection.collections, c => remove(c)))
-  // }
-  // if (mongoose.connection.readyState === 0) {
-  //  try {
-  //    await mongoose.connect(config.dbUrl + db, {
-  //      useNewUrlParser: true,
-  //      autoIndex: true
-  //    })
-  //    await clearDB()
-  //    await Promise.all(Object.keys(models).map(name => models[name].init()))
-  //  } catch (e) {
-  //    console.log('connection error')
-  //    console.error(e)
-  //    throw e
-  //  }
-  // } else {
-  //  await clearDB()
-  // }
+  const db = cuid()
+  function clearDB() {
+    return Promise.all(_.map(mongoose.connection.collections, c => remove(c)))
+  }
+  if (mongoose.connection.readyState === 0) {
+    try {
+      await mongoose.connect(config.dbUrl + db, {
+        useNewUrlParser: true,
+        autoIndex: true
+      })
+      await clearDB()
+      await Promise.all(Object.keys(models).map(name => models[name].init()))
+    } catch (e) {
+      console.log('connection error')
+      console.error(e)
+      throw e
+    }
+  } else {
+    await clearDB()
+  }
   done()
 })
 afterEach(async done => {
-  // await mongoose.connection.db.dropDatabase()
-  // await mongoose.disconnect()
+  await mongoose.connection.db.dropDatabase()
+  await mongoose.disconnect()
   return done()
 })
 afterAll(done => {

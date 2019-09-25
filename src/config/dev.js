@@ -1,6 +1,7 @@
 export const config = {
   secrets: {
-    jwt: 'taverna-dev-secret'
+    jwt: process.env.API_KEY_DEV || 'taverna-dev-secret'
   },
-  dbUrl: 'mongodb://localhost:27017/taverna-dev'
+  dbUrl:
+    process.env.MONGO_DB_URL_DEV || 'mongodb://localhost:27017/taverna-db-dev'
 }
