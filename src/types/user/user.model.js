@@ -39,14 +39,7 @@ userSchema.pre('save', async function(next) {
 
 userSchema.methods.checkPassword = function(password) {
   const passwordHash = this.password
-  return new Promise(resolve => {
-    bcrypt.compare(password, passwordHash, (err, same) => {
-      if (err) {
-        throw new Error('invalid_password')
-      }
-      resolve(same)
-    })
-  })
+  return bcrypt.compare(password, passwordHash)
 }
 
 userSchema.query.findByEmailOrUsername = function({ email, username }) {

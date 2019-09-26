@@ -3,7 +3,7 @@ import { loadTypeSchema } from '../../../utils/schema'
 import { mockServer } from 'graphql-tools'
 import { schemaToTemplateContext } from 'graphql-codegen-core'
 
-describe('Product schema', () => {
+describe('User schema', () => {
   let schema, typeDefs
   beforeAll(async () => {
     const root = `

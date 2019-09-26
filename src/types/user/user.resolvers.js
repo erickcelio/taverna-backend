@@ -52,7 +52,9 @@ const signIn = async (_, args) => {
     throw new Error('user_not_found')
   }
 
-  await user.checkPassword(password)
+  if (!(await user.checkPassword(password))) {
+    throw new Error('invalid_password')
+  }
 
   user.password = undefined
 

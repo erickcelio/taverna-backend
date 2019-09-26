@@ -1,0 +1,14 @@
+type Role {
+  _id: ID!
+  isAdmin: Boolean
+  canManageServer: Boolean
+  canManegeRoles: Boolean
+  canManageRoles: Boolean
+  canManageChannels: Boolean
+  canKickMember: Boolean
+  canBanMembers: Boolean
+  canChangeNickname: Boolean
+  canReadTextChannels: Boolean
+  canSendMessages: Boolean
+  canManageMessages: Boolean
+}

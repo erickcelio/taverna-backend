@@ -45,19 +45,38 @@ describe('userResolvers:', () => {
       })
 
       test('it cant made signIn because user is incorrect', async () => {
+        await User.create(defaultUser)
         try {
           await userResolvers.Query.signIn(
             null,
             {
               input: {
-                username: 'joao',
-                password: '123456'
+                username: 'joaoteste',
+                password: 'passwordincorrect'
               }
             },
             { user: {} }
           )
         } catch (e) {
           expect(e.message).toBe('user_not_found')
+        }
+      })
+
+      test('it cant made signIn because password is incorrect', async () => {
+        await User.create(defaultUser)
+        try {
+          await userResolvers.Query.signIn(
+            null,
+            {
+              input: {
+                username: defaultUser.username,
+                password: 'teste'
+              }
+            },
+            { user: {} }
+          )
+        } catch (e) {
+          expect(e.message).toBe('invalid_password')
         }
       })
     })

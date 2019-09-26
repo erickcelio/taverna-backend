@@ -1,0 +1,34 @@
+type Member {
+  member: User!,
+  roles: [Role]
+}
+
+type Group {
+  _id: ID!
+  name: String!
+  image: String
+  owner: User!
+  roles: [Role]
+  members: [Member]
+}
+
+input NewGroupInput {
+  name: String!,
+  image: String
+}
+
+input UpdateGroupInput {
+  name: String,
+  image: String
+}
+
+extend type Query {
+  getGroup(id: ID!): Group!
+  getMyGroups: [Group]  
+}
+
+extend type Mutation {
+  createGroup(input: NewGroupInput!): Group!
+  updateGroup(input: UpdateGroupInput!): Group!
+  deleteGroup(id: ID!): Group!
+}

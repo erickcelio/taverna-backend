@@ -6,7 +6,7 @@ import { loadResolver } from './utils/resolver'
 import { loadTypeSchema } from './utils/schema'
 import { merge } from 'lodash'
 
-const types = ['user']
+const types = ['user', 'role', 'group']
 
 export const start = async () => {
   const typeDefs = await Promise.all(types.map(loadTypeSchema))
