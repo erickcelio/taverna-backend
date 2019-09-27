@@ -13,7 +13,9 @@ describe('User schema', () => {
       }
 
     `
-    const typeSchemas = await Promise.all(['user'].map(loadTypeSchema))
+    const typeSchemas = await Promise.all(
+      ['user', 'group', 'role'].map(loadTypeSchema)
+    )
     typeDefs = root + typeSchemas.join(' ')
     schema = schemaToTemplateContext(buildSchema(typeDefs))
   })
@@ -31,7 +33,7 @@ describe('User schema', () => {
         email: 'String!',
         avatar: 'String',
         username: 'String!',
-        password: 'String!'
+        groups: '[Group]'
       }
 
       type.fields.forEach(field => {

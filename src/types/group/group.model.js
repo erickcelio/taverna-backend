@@ -1,6 +1,7 @@
 import { Schema, Types, model } from 'mongoose'
 
 import Role from '../role/role.model'
+import User from '../user/user.model'
 
 const groupSchema = new Schema(
   {
@@ -69,6 +70,22 @@ groupSchema.pre('save', async function(next) {
   })
 
   next()
+})
+
+groupSchema.post('save', async function(group) {
+  return User.findByIdAndUpdate(group.owner, {
+    $push: { groups: group._id }
+  })
+})
+
+groupSchema.pre('findByIdAndDelete', async function() {
+  const deleteRoles = this.roles.map(role => Role.findByIdAndDelete(role))
+
+  const removeGroupFromUser = this.members.map(async ({ member }) =>
+    User.findByIdAndUpdate(member, { $pull: { groups: this._id } })
+  )
+
+  return Promise.all(...removeGroupFromUser, ...deleteRoles)
 })
 
 export default model('Group', groupSchema)

@@ -12,7 +12,9 @@ describe('Role schema', () => {
       }
 
     `
-    const typeSchemas = await Promise.all(['role', 'user'].map(loadTypeSchema))
+    const typeSchemas = await Promise.all(
+      ['role', 'user', 'group'].map(loadTypeSchema)
+    )
     typeDefs = root + typeSchemas.join(' ')
     schema = schemaToTemplateContext(buildSchema(typeDefs))
   })

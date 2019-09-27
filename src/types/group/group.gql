@@ -18,6 +18,7 @@ input NewGroupInput {
 }
 
 input UpdateGroupInput {
+  _id: ID!
   name: String,
   image: String
 }
@@ -30,5 +31,5 @@ extend type Query {
 extend type Mutation {
   createGroup(input: NewGroupInput!): Group!
   updateGroup(input: UpdateGroupInput!): Group!
-  deleteGroup(id: ID!): Group!
+  deleteGroup(_id: ID!): Group!
 }

@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose'
+import { Schema, Types, model } from 'mongoose'
 
 import bcrypt from 'bcrypt'
 
@@ -27,7 +27,8 @@ const userSchema = new Schema(
       type: String,
       required: true,
       select: false
-    }
+    },
+    groups: [{ type: Types.ObjectId, ref: 'Group' }]
   },
   { timestamps: true }
 )

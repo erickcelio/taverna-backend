@@ -1,4 +1,5 @@
 import { AuthenticationError } from 'apollo-server'
+import Group from '../group/group.model'
 import User from './user.model'
 import { generateToken } from '../../utils/auth'
 import { isEmpty } from 'lodash'
@@ -72,5 +73,9 @@ export default {
   Mutation: {
     updateMe,
     signUp
+  },
+  User: {
+    __resolveType(member) {},
+    groups: ({ groups }) => groups.map(groupId => Group.findById(groupId))
   }
 }

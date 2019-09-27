@@ -83,6 +83,7 @@ describe('Group schema', () => {
       expect(input).toBeTruthy()
 
       const fields = {
+        _id: 'ID!',
         name: 'String',
         image: 'String'
       }
@@ -185,27 +186,12 @@ describe('Group schema', () => {
           updateGroup(input: $input) {
             name
             image
-            owner {
-              _id
-              name
-              avatar
-            }
-            roles {
-              _id
-            }
-            members {
-              member {
-                name
-              }
-              roles {
-                _id
-              }
-            }
           }
         }
       `
       const vars = {
         input: {
+          _id: '1ep2i3028asdas1',
           name: 'JS2 Group',
           image: 'https://image2.com'
         }
@@ -219,7 +205,7 @@ describe('Group schema', () => {
       const server = mockServer(typeDefs)
       const query = `
         mutation DeleteGroup {
-          deleteGroup(id: "d1e4asd") {
+          deleteGroup(_id: "d1e4asd") {
             _id
             name
             image
@@ -228,8 +214,7 @@ describe('Group schema', () => {
       `
       const vars = {
         input: {
-          name: 'JS2 Group',
-          image: 'https://image2.com'
+          _id: '131239u19qdsqdr'
         }
       }
       await expect(server.query(query, vars)).resolves.toBeTruthy()
