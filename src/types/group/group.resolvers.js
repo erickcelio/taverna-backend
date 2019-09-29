@@ -4,7 +4,8 @@ import User from '../user/user.model'
 
 const getGroup = (_, args) => Group.findById(args.groupId)
 
-const getMyGroups = (_, args, ctx) => Group.find().findByOwner(ctx.user._id)
+const getMyGroups = (_, args, ctx) =>
+  Group.find({ _id: { $in: ctx.user.groups } })
 
 const createGroup = async (_, args, ctx) =>
   Group.create({ ...args.input, owner: ctx.user._id })
