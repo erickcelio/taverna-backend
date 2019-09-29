@@ -3,7 +3,6 @@ type Role {
   isAdmin: Boolean
   canManageServer: Boolean
   canManegeRoles: Boolean
-  canManageRoles: Boolean
   canManageChannels: Boolean
   canKickMember: Boolean
   canBanMembers: Boolean

@@ -18,18 +18,18 @@ input NewGroupInput {
 }
 
 input UpdateGroupInput {
-  _id: ID!
+  groupId: ID!
   name: String,
   image: String
 }
 
 extend type Query {
-  getGroup(id: ID!): Group!
-  getMyGroups: [Group]  
+  getGroup(groupId: ID!): Group! @isAuth
+  getMyGroups: [Group] @isAuth
 }
 
 extend type Mutation {
-  createGroup(input: NewGroupInput!): Group!
-  updateGroup(input: UpdateGroupInput!): Group!
-  deleteGroup(_id: ID!): Group!
+  createGroup(input: NewGroupInput!): Group! @isAuth
+  updateGroup(input: UpdateGroupInput!): Group! @hasRoleInGroup(roles: ["isAdmin", "canManageServer"])
+  deleteGroup(groupId: ID!): Group!
 }

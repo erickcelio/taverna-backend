@@ -1,4 +1,5 @@
 import { buildSchema } from 'graphql'
+import config from './../../../config'
 import { loadTypeSchema } from '../../../utils/schema'
 import { mockServer } from 'graphql-tools'
 import { schemaToTemplateContext } from 'graphql-codegen-core'
@@ -13,9 +14,7 @@ describe('Group schema', () => {
       }
 
     `
-    const typeSchemas = await Promise.all(
-      ['group', 'user', 'role'].map(loadTypeSchema)
-    )
+    const typeSchemas = await Promise.all(config.types.map(loadTypeSchema))
     typeDefs = root + typeSchemas.join(' ')
     schema = schemaToTemplateContext(buildSchema(typeDefs))
   })
@@ -83,7 +82,7 @@ describe('Group schema', () => {
       expect(input).toBeTruthy()
 
       const fields = {
-        _id: 'ID!',
+        groupId: 'ID!',
         name: 'String',
         image: 'String'
       }
@@ -98,7 +97,7 @@ describe('Group schema', () => {
       const server = mockServer(typeDefs)
       const query = `
         {
-          getGroup(id: "384hsd") {
+          getGroup(groupId: "384hsd") {
             name
             image
             owner {
@@ -191,7 +190,7 @@ describe('Group schema', () => {
       `
       const vars = {
         input: {
-          _id: '1ep2i3028asdas1',
+          groupId: '1ep2i3028asdas1',
           name: 'JS2 Group',
           image: 'https://image2.com'
         }
@@ -205,7 +204,7 @@ describe('Group schema', () => {
       const server = mockServer(typeDefs)
       const query = `
         mutation DeleteGroup {
-          deleteGroup(_id: "d1e4asd") {
+          deleteGroup(groupId: "d1e4asd") {
             _id
             name
             image
@@ -214,7 +213,7 @@ describe('Group schema', () => {
       `
       const vars = {
         input: {
-          _id: '131239u19qdsqdr'
+          groupId: '131239u19qdsqdr'
         }
       }
       await expect(server.query(query, vars)).resolves.toBeTruthy()

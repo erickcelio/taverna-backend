@@ -1,4 +1,5 @@
 import { buildSchema } from 'graphql'
+import config from '../../../config'
 import { loadTypeSchema } from '../../../utils/schema'
 import { mockServer } from 'graphql-tools'
 import { schemaToTemplateContext } from 'graphql-codegen-core'
@@ -13,9 +14,7 @@ describe('User schema', () => {
       }
 
     `
-    const typeSchemas = await Promise.all(
-      ['user', 'group', 'role'].map(loadTypeSchema)
-    )
+    const typeSchemas = await Promise.all(config.types.map(loadTypeSchema))
     typeDefs = root + typeSchemas.join(' ')
     schema = schemaToTemplateContext(buildSchema(typeDefs))
   })

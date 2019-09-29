@@ -5,7 +5,6 @@ type User {
   username: String!
   email: String!
   groups: [Group]
-
 }
 
 input SignInInput {
@@ -31,11 +30,11 @@ input UpdateUserInput {
 }
 
 type Query {
-  me: User!
+  me: User! @isAuth
   signIn(input: SignInInput): SignInOutput  
 }
 
 type Mutation {
   signUp(input: NewUserInput!): User!
-  updateMe(input: UpdateUserInput!): User!
+  updateMe(input: UpdateUserInput!): User! @isAuth
 }

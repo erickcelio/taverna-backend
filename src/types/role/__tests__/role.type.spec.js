@@ -1,4 +1,5 @@
 import { buildSchema } from 'graphql'
+import config from './../../../config'
 import { loadTypeSchema } from '../../../utils/schema'
 import { schemaToTemplateContext } from 'graphql-codegen-core'
 
@@ -12,9 +13,7 @@ describe('Role schema', () => {
       }
 
     `
-    const typeSchemas = await Promise.all(
-      ['role', 'user', 'group'].map(loadTypeSchema)
-    )
+    const typeSchemas = await Promise.all(config.types.map(loadTypeSchema))
     typeDefs = root + typeSchemas.join(' ')
     schema = schemaToTemplateContext(buildSchema(typeDefs))
   })
@@ -31,7 +30,6 @@ describe('Role schema', () => {
         isAdmin: 'Boolean',
         canManageServer: 'Boolean',
         canManegeRoles: 'Boolean',
-        canManageRoles: 'Boolean',
         canManageChannels: 'Boolean',
         canKickMember: 'Boolean',
         canBanMembers: 'Boolean',

@@ -1,38 +1,23 @@
-import { AuthenticationError } from 'apollo-server'
 import Group from './group.model'
 import Role from '../role/role.model'
 import User from '../user/user.model'
 
-const getGroup = (_, args) =>
-  Group.findById(args.id)
-    .populate('roles')
-    .populate('members.member', ['name', 'avatar'])
+const getGroup = (_, args) => Group.findById(args.groupId)
 
-const getMyGroups = (_, args, ctx) => {
-  if (!ctx.user) {
-    throw new AuthenticationError()
-  }
+const getMyGroups = (_, args, ctx) => Group.find().findByOwner(ctx.user._id)
 
-  return Group.find().findByOwner(ctx.user._id)
-}
-
-const createGroup = async (_, args, ctx) => {
-  if (!ctx.user) {
-    throw new AuthenticationError()
-  }
-
-  return Group.create({ ...args.input, owner: ctx.user._id })
-}
+const createGroup = async (_, args, ctx) =>
+  Group.create({ ...args.input, owner: ctx.user._id })
 
 const updateGroup = async (_, args) => {
   const {
-    input: { _id, name, image }
+    input: { groupId, name, image }
   } = args
 
-  return Group.findByIdAndUpdate(_id, { name, image })
+  return Group.findByIdAndUpdate(groupId, { name, image })
 }
 
-const deleteGroup = async (_, args) => Group.findByIdAndDelete(args._id)
+const deleteGroup = async (_, args) => Group.findByIdAndDelete(args.groupId)
 
 export default {
   Query: {

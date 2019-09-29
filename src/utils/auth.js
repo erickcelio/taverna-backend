@@ -1,3 +1,4 @@
+import { AuthenticationError } from 'apollo-server'
 import User from '../types/user/user.model'
 import config from '../config'
 import jwt from 'jsonwebtoken'
@@ -6,6 +7,12 @@ export const generateToken = params =>
   jwt.sign({ ...params }, config.secrets.jwt, {
     expiresIn: config.secrets.jwtExp
   })
+
+export const verifyAuthentication = ctx => {
+  if (!ctx.user) {
+    throw new AuthenticationError('unauthenticated')
+  }
+}
 
 export const authenticate = async req => {
   const token = req.headers.authorization

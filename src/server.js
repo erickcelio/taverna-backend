@@ -5,8 +5,9 @@ import { connect } from './db'
 import { loadResolver } from './utils/resolver'
 import { loadTypeSchema } from './utils/schema'
 import { merge } from 'lodash'
+import schemaDirectives from './types/directives'
 
-const types = ['user', 'role', 'group']
+const types = ['directives', 'user', 'role', 'group']
 
 export const start = async () => {
   const typeDefs = await Promise.all(types.map(loadTypeSchema))
@@ -15,6 +16,7 @@ export const start = async () => {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
+    schemaDirectives,
     introspection: true,
     playground: true,
     async context({ req }) {
