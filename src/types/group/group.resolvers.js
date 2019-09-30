@@ -15,7 +15,7 @@ const updateGroup = async (_, args) => {
     input: { groupId, name, image }
   } = args
 
-  return Group.findByIdAndUpdate(groupId, { name, image })
+  return Group.findByIdAndUpdate(groupId, { name, image }, { new: true })
 }
 
 const deleteGroup = async (_, args) => Group.findByIdAndDelete(args.groupId)
