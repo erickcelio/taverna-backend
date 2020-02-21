@@ -7,7 +7,7 @@ import {
   defaultFieldResolver
 } from 'graphql'
 
-import { verifyUserRoleInGroup } from '../../services/group.services'
+import { verifyUserRoleInGroup } from '../../services/group'
 
 class HasRoleInGroupDirective extends SchemaDirectiveVisitor {
   static getDirectiveDeclaration(directiveName, schema) {

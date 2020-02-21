@@ -1,7 +1,7 @@
-import Group from './../types/group/group.model'
-import Roles from './../types/role/role.model'
+import Group from '../models/group'
+import Roles from '../models/role'
 
-const verifyUserRoleInGroup = async ({ groupId, roles, user }) => {
+export const verifyUserRoleInGroup = async ({ groupId, roles, user }) => {
   const group = await Group.findById(groupId)
   const member = group.members.find(({ member }) => member.equals(user._id))
   const groupRoles = await Roles.find({ _id: { $in: member.roles } })
@@ -11,5 +11,3 @@ const verifyUserRoleInGroup = async ({ groupId, roles, user }) => {
 
   return Boolean(hasRole)
 }
-
-export { verifyUserRoleInGroup }

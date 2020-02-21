@@ -1,7 +1,7 @@
 import { AuthenticationError } from 'apollo-server'
-import Group from '../group/group.model'
-import User from './user.model'
-import { generateToken } from '../../utils/auth'
+import Group from '../models/group'
+import User from '../models/user'
+import { generateToken } from '../utils/auth'
 import { isEmpty } from 'lodash'
 
 const me = (_, args, ctx) => {

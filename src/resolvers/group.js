@@ -1,6 +1,6 @@
-import Group from './group.model'
-import Role from '../role/role.model'
-import User from '../user/user.model'
+import Group from '../models/group'
+import Role from '../models/role'
+import User from '../models/user'
 
 const getGroup = (_, args) => Group.findById(args.groupId)
 
@@ -32,12 +32,9 @@ export default {
   },
   Group: {
     __resolveType(group) {},
-    owner(group) {
-      return User.findById(group.owner)
-    },
-    roles(group) {
-      return Promise.all(group.roles.map(roleId => Role.findById(roleId)))
-    }
+    owner: group => User.findById(group.owner),
+    roles: group =>
+      Promise.all(group.roles.map(roleId => Role.findById(roleId)))
   },
   Member: {
     __resolveType(member) {},

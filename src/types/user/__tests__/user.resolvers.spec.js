@@ -1,6 +1,6 @@
 import { AuthenticationError } from 'apollo-server'
-import User from '../../user/user.model'
-import userResolvers from '../user.resolvers'
+import User from '../../../models/user'
+import userResolvers from '../../../resolvers/user'
 
 const defaultUser = {
   name: 'João',

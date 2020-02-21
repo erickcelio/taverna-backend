@@ -1,2 +1,3 @@
 directive @isAuth on FIELD_DEFINITION
+
 directive @hasRoleInGroup(roles: [String!]) on FIELD_DEFINITION | FIELD

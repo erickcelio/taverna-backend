@@ -1,10 +1,11 @@
-import User from './src/types/user/user.model'
-import _ from 'lodash'
+import User from './src/models/user'
+import { map } from 'lodash'
 import config from './src/config'
 import cuid from 'cuid'
 import mongoose from 'mongoose'
 
 const models = { User }
+
 global.newId = () => {
   return mongoose.Types.ObjectId()
 }
@@ -19,9 +20,10 @@ const remove = collection =>
 
 beforeEach(async done => {
   const db = cuid()
-  function clearDB() {
-    return Promise.all(_.map(mongoose.connection.collections, c => remove(c)))
-  }
+
+  const clearDB = () =>
+    Promise.all(map(mongoose.connection.collections, c => remove(c)))
+
   if (mongoose.connection.readyState === 0) {
     try {
       await mongoose.connect(config.dbUrl + db, {
@@ -40,11 +42,11 @@ beforeEach(async done => {
   }
   done()
 })
+
 afterEach(async done => {
   await mongoose.connection.db.dropDatabase()
   await mongoose.disconnect()
   return done()
 })
-afterAll(done => {
-  return done()
-})
+
+afterAll(done => done())

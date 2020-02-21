@@ -1,7 +1,7 @@
 import { Schema, Types, model } from 'mongoose'
 
-import Role from '../role/role.model'
-import User from '../user/user.model'
+import Role from './role'
+import User from './user'
 
 const groupSchema = new Schema(
   {

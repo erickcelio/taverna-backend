@@ -1,5 +1,5 @@
 import { AuthenticationError } from 'apollo-server'
-import User from '../types/user/user.model'
+import User from '../models/user'
 import config from '../config'
 import jwt from 'jsonwebtoken'
 
