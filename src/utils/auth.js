@@ -1,6 +1,7 @@
 import { AuthenticationError } from 'apollo-server'
-import User from '../models/user'
-import config from '../config'
+import User from 'models/user'
+import config from 'config'
+import { isEmpty } from 'lodash'
 import jwt from 'jsonwebtoken'
 
 export const generateToken = params =>
@@ -9,7 +10,7 @@ export const generateToken = params =>
   })
 
 export const verifyAuthentication = ctx => {
-  if (!ctx.user) {
+  if (isEmpty(ctx.user)) {
     throw new AuthenticationError('unauthenticated')
   }
 }

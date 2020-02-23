@@ -1,24 +1,22 @@
-import Group from '../models/group'
-import Role from '../models/role'
-import User from '../models/user'
+import Role from 'models/role'
+import User from 'models/user'
+import {
+  getGroupService,
+  getMyGroupsService,
+  createGroupService,
+  updateGroupService,
+  deleteGroupService
+} from 'services/group'
 
-const getGroup = (_, args) => Group.findById(args.groupId)
+const getGroup = (_, args) => getGroupService(args)
 
-const getMyGroups = (_, args, ctx) =>
-  Group.find({ _id: { $in: ctx.user.groups } })
+const getMyGroups = (_, args, ctx) => getMyGroupsService(ctx)
 
-const createGroup = async (_, args, ctx) =>
-  Group.create({ ...args.input, owner: ctx.user._id })
+const createGroup = (_, args, ctx) => createGroupService(args, ctx)
 
-const updateGroup = async (_, args) => {
-  const {
-    input: { groupId, name, image }
-  } = args
+const updateGroup = (_, args) => updateGroupService(args)
 
-  return Group.findByIdAndUpdate(groupId, { name, image }, { new: true })
-}
-
-const deleteGroup = async (_, args) => Group.findByIdAndDelete(args.groupId)
+const deleteGroup = (_, args) => deleteGroupService(args)
 
 export default {
   Query: {

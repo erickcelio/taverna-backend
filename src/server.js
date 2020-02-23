@@ -1,10 +1,10 @@
 import { ApolloServer } from 'apollo-server'
-import { authenticate } from './utils/auth'
-import config from './config'
+import { authenticate } from 'utils/auth'
+import config from 'config'
 import { connect } from './db'
-import { loadResolver } from './utils/resolver'
-import { loadTypeSchema } from './utils/schema'
-import schemaDirectives from './types/directives'
+import { loadResolver } from 'utils/resolver'
+import { loadTypeSchema } from 'utils/schema'
+import schemaDirectives from 'types/directives'
 
 const types = ['directives', 'user', 'role', 'group']
 

@@ -14,10 +14,6 @@ const roleSchema = new Schema(
       type: Boolean,
       default: false
     },
-    canManegeRoles: {
-      type: Boolean,
-      default: false
-    },
     canManageRoles: {
       type: Boolean,
       default: false

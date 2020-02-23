@@ -51,7 +51,6 @@ groupSchema.pre('save', async function(next) {
     name: 'Admin',
     isAdmin: true,
     canManageServer: true,
-    canManegeRoles: true,
     canManageRoles: true,
     canManageChannels: true,
     canKickMember: true,
@@ -60,6 +59,20 @@ groupSchema.pre('save', async function(next) {
     canReadTextChannels: true,
     canSendMessages: true,
     canManageMessages: true
+  })
+
+  await Role.create({
+    name: 'Member',
+    isAdmin: false,
+    canManageServer: false,
+    canManageRoles: false,
+    canManageChannels: false,
+    canKickMember: false,
+    canBanMembers: false,
+    canChangeNickname: false,
+    canReadTextChannels: true,
+    canSendMessages: true,
+    canManageMessages: false
   })
 
   this.roles.push(newRole._id)

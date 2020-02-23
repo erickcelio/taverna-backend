@@ -1,13 +1,51 @@
 {
   "presets": [
-    ["@babel/env", {
-      "targets": {
-        "node": "current"
+    [
+      "@babel/env",
+      {
+        "targets": {
+          "node": "current"
+        }
       }
-    }]
+    ]
   ],
   "plugins": [
     "@babel/plugin-proposal-class-properties",
-    "@babel/plugin-proposal-object-rest-spread"
+    "@babel/plugin-proposal-object-rest-spread",
+    [
+      "babel-plugin-root-import",
+      {
+        "paths": [
+          {
+            "rootPathSuffix": "./src/config/index",
+            "rootPathPrefix": "config"
+          },
+          {
+            "rootPathSuffix": "./src/models",
+            "rootPathPrefix": "models/"
+          },
+          {
+            "rootPathSuffix": "./src/repository",
+            "rootPathPrefix": "repository/"
+          },
+          {
+            "rootPathSuffix": "./src/resolvers",
+            "rootPathPrefix": "resolvers/"
+          },
+          {
+            "rootPathSuffix": "./src/services",
+            "rootPathPrefix": "services/"
+          },
+          {
+            "rootPathSuffix": "./src/utils",
+            "rootPathPrefix": "utils/"
+          },
+          {
+            "rootPathSuffix": "./src/types",
+            "rootPathPrefix": "types/"
+          }
+        ]
+      }
+    ]
   ]
 }

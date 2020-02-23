@@ -1,27 +1,14 @@
-import { AuthenticationError } from 'apollo-server'
-import Group from '../models/group'
-import User from '../models/user'
-import { generateToken } from '../utils/auth'
-import { isEmpty } from 'lodash'
+import Group from 'models/group'
+import User from 'models/user'
+import { generateToken } from 'utils/auth'
 
-const me = (_, args, ctx) => {
-  if (!ctx.user) {
-    throw new AuthenticationError()
-  }
+const me = (_, args, ctx) => User.findById(ctx.user._id)
 
-  return User.findById(ctx.user._id)
-}
-
-const updateMe = (_, args, ctx) => {
-  if (isEmpty(ctx.user)) {
-    throw new AuthenticationError()
-  }
-
-  return User.findByIdAndUpdate(ctx.user._id, args.input, { new: true })
+const updateMe = (_, args, ctx) =>
+  User.findByIdAndUpdate(ctx.user._id, args.input, { new: true })
     .select('-password')
     .lean()
     .exec()
-}
 
 const signUp = async (_, args) => {
   const { email, username } = args.input
