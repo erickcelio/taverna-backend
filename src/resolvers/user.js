@@ -1,56 +1,19 @@
-import Group from 'models/group'
-import User from 'models/user'
-import { generateToken } from 'utils/auth'
+import {
+  createUserService,
+  findUserByIdService,
+  signInService,
+  updateUserService
+} from 'services/user'
 
-const me = (_, args, ctx) => User.findById(ctx.user._id)
+import { getGroupsByIdsService } from 'services/group'
 
-const updateMe = (_, args, ctx) =>
-  User.findByIdAndUpdate(ctx.user._id, args.input, { new: true })
-    .select('-password')
-    .lean()
-    .exec()
+const me = (_, args, ctx) => findUserByIdService(ctx.user._id)
 
-const signUp = async (_, args) => {
-  const { email, username } = args.input
+const updateMe = (_, args, ctx) => updateUserService(ctx.user._id, args.input)
 
-  const user = await User.find().findByEmailOrUsername({ email, username })
+const signUp = async (_, args) => createUserService(args.input)
 
-  if (user) {
-    throw new Error('user_already_exists')
-  }
-
-  let newUser = await User.create({ ...args.input })
-
-  newUser = newUser.toObject()
-
-  Reflect.deleteProperty(newUser, 'password')
-
-  return newUser
-}
-
-const signIn = async (_, args) => {
-  const { username, password } = args.input
-
-  const user = await User.find().findByEmailOrUsername({
-    username,
-    email: username
-  })
-
-  if (!user) {
-    throw new Error('user_not_found')
-  }
-
-  if (!(await user.checkPassword(password))) {
-    throw new Error('invalid_password')
-  }
-
-  user.password = undefined
-
-  return {
-    user,
-    token: generateToken({ id: user.id })
-  }
-}
+const signIn = async (_, args) => signInService(args.input)
 
 export default {
   Query: {
@@ -63,6 +26,6 @@ export default {
   },
   User: {
     __resolveType(member) {},
-    groups: ({ groups }) => groups.map(groupId => Group.findById(groupId))
+    groups: ({ groups }) => getGroupsByIdsService(groups)
   }
 }

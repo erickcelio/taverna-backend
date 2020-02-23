@@ -1,20 +1,22 @@
-import Role from 'models/role'
-import User from 'models/user'
 import {
-  getGroupService,
-  getMyGroupsService,
   createGroupService,
-  updateGroupService,
-  deleteGroupService
+  deleteGroupService,
+  getGroupByIdService,
+  getGroupsByIdsService,
+  updateGroupService
 } from 'services/group'
 
-const getGroup = (_, args) => getGroupService(args)
+import { findRolesByIdsService } from 'services/role'
+import { findUserByIdService } from 'services/user'
 
-const getMyGroups = (_, args, ctx) => getMyGroupsService(ctx)
+const getGroup = (_, args) => getGroupByIdService(args.groupId)
 
-const createGroup = (_, args, ctx) => createGroupService(args, ctx)
+const getMyGroups = (_, args, ctx) => getGroupsByIdsService(ctx.user.groups)
 
-const updateGroup = (_, args) => updateGroupService(args)
+const createGroup = (_, args, ctx) =>
+  createGroupService({ ...args.input, owner: ctx.user._id })
+
+const updateGroup = (_, args) => updateGroupService(args.input)
 
 const deleteGroup = (_, args) => deleteGroupService(args)
 
@@ -30,13 +32,12 @@ export default {
   },
   Group: {
     __resolveType(group) {},
-    owner: group => User.findById(group.owner),
-    roles: group =>
-      Promise.all(group.roles.map(roleId => Role.findById(roleId)))
+    owner: ({ owner }) => findUserByIdService(owner),
+    roles: ({ roles }) => findRolesByIdsService(roles)
   },
   Member: {
     __resolveType(member) {},
-    member: ({ member }) => User.findById(member),
-    roles: ({ roles }) => roles.map(role => Role.findById(role))
+    member: ({ member }) => findUserByIdService(member),
+    roles: ({ roles }) => findRolesByIdsService(roles)
   }
 }

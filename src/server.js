@@ -1,6 +1,6 @@
 import { ApolloServer } from 'apollo-server'
 import { authenticate } from 'utils/auth'
-import config from 'config'
+import config from './config'
 import { connect } from './db'
 import { loadResolver } from 'utils/resolver'
 import { loadTypeSchema } from 'utils/schema'
@@ -18,10 +18,7 @@ export const start = async () => {
     schemaDirectives,
     introspection: true,
     playground: true,
-    async context({ req }) {
-      const user = await authenticate(req)
-      return { user }
-    }
+    context: async ({ req }) => ({ user: await authenticate(req) })
   })
 
   await connect(config.dbUrl)

@@ -1,22 +1,21 @@
-import Group from 'models/group'
-import Roles from 'models/role'
 import {
+  createGroupRepository,
+  deleteGroupRepository,
   getGroupByIdRepository,
   getGroupsInIdsRepository,
-  createGroupRepository,
-  updateGroupRepository,
-  deleteGroupRepository
+  updateGroupRepository
 } from 'repository/group'
 
-export const getGroupService = ({ groupId }) => getGroupByIdRepository(groupId)
+import Group from 'models/group'
+import Roles from 'models/role'
 
-export const getMyGroupsService = ({ user }) =>
-  getGroupsInIdsRepository(user.groups)
+export const getGroupByIdService = id => getGroupByIdRepository(id)
 
-export const createGroupService = ({ input }, { user }) =>
-  createGroupRepository({ ...input, owner: user._id })
+export const getGroupsByIdsService = ids => getGroupsInIdsRepository(ids)
 
-export const updateGroupService = ({ input: { groupId, ...args } }) =>
+export const createGroupService = args => createGroupRepository(args)
+
+export const updateGroupService = ({ groupId, ...args }) =>
   updateGroupRepository(groupId, args)
 
 export const deleteGroupService = ({ groupId }) =>
