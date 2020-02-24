@@ -1,11 +1,12 @@
 import {
-  createUserService,
-  findUserByIdService,
-  signInService,
-  updateUserService
+	createUserService,
+	findUserByIdService,
+	signInService,
+	updateUserService
 } from 'services/user'
 
 import { getGroupsByIdsService } from 'services/group'
+import { resolveFriendsService } from 'services/friend'
 
 const me = (_, args, ctx) => findUserByIdService(ctx.user._id)
 
@@ -16,15 +17,16 @@ const signUp = async (_, args) => createUserService(args.input)
 const signIn = async (_, args) => signInService(args.input)
 
 export default {
-  Query: {
-    me,
-    signIn
-  },
-  Mutation: {
-    updateMe,
-    signUp
-  },
-  User: {
-    groups: ({ groups }) => getGroupsByIdsService(groups)
-  }
+	Query: {
+		me,
+		signIn
+	},
+	Mutation: {
+		updateMe,
+		signUp
+	},
+	User: {
+		groups: ({ groups }) => getGroupsByIdsService(groups),
+		friends: ({ friends }) => resolveFriendsService(friends)
+	}
 }

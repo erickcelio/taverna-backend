@@ -1,0 +1,15 @@
+type FriendRequest {
+	_id: ID!
+	sender: User!
+	receiver: User!
+	status: String!
+}
+
+extend type Mutation {
+	sendFriendRequest(username: String!): FriendRequest!
+	acceptFriendRequest(requestId: ID!): FriendRequest!
+}
+
+extend type Query {
+	getFriendRequests: [FriendRequest]
+}

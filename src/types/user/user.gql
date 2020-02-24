@@ -1,40 +1,41 @@
 type User {
-  _id: ID!
-  name: String!
-  avatar: String
-  username: String!
-  email: String!
-  groups: [Group]
+	_id: ID!
+	name: String!
+	avatar: String
+	username: String!
+	email: String!
+	groups: [Group]
+	friends: [Friend]
 }
 
 input SignInInput {
-  username: String!
-  password: String!
+	username: String!
+	password: String!
 }
 
 type SignInOutput {
-  user: User!
-  token: String!
+	user: User!
+	token: String!
 }
 
 input NewUserInput {
-  name: String!
-  username: String!
-  email: String!
-  password: String!
+	name: String!
+	username: String!
+	email: String!
+	password: String!
 }
 
 input UpdateUserInput {
-  name: String
-  avatar: String
+	name: String
+	avatar: String
 }
 
 type Query {
-  me: User! @isAuth
-  signIn(input: SignInInput): SignInOutput
+	me: User! @isAuth
+	signIn(input: SignInInput): SignInOutput
 }
 
 type Mutation {
-  signUp(input: NewUserInput!): User!
-  updateMe(input: UpdateUserInput!): User! @isAuth
+	signUp(input: NewUserInput!): User!
+	updateMe(input: UpdateUserInput!): User! @isAuth
 }

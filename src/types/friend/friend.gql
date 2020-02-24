@@ -1,0 +1,3 @@
+type Friend {
+	user: User!
+}

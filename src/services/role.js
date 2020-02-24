@@ -1,6 +1,6 @@
 import {
-  findRoleByIdRepository,
-  findRolesByIdsRepository
+	findRoleByIdRepository,
+	findRolesByIdsRepository
 } from 'repository/role'
 
 export const findRoleByIdService = id => findRoleByIdRepository(id)

@@ -1,5 +1,5 @@
-import { merge } from 'lodash'
 import dotenv from 'dotenv'
+import { merge } from 'lodash'
 
 dotenv.config()
 
@@ -12,36 +12,36 @@ const isDev = env === 'development' || env === 'dev'
 const isTest = env === 'testing' || env === 'test'
 
 const baseConfig = {
-  apiKey: process.env.API_KEY,
-  env,
-  isDev,
-  isTest,
-  port: process.env.PORT || DEFAULT_PORT,
-  secrets: {
-    jwt: process.env.JWT_SECRET,
-    jwtExp: process.env.JWT_EXP || DEFAULT_JWT_EXP
-  }
+	apiKey: process.env.API_KEY,
+	env,
+	isDev,
+	isTest,
+	port: process.env.PORT || DEFAULT_PORT,
+	secrets: {
+		jwt: process.env.JWT_SECRET,
+		jwtExp: process.env.JWT_EXP || DEFAULT_JWT_EXP
+	}
 }
 
 const getCurrentConfig = env => {
-  let configPath = ''
+	let configPath = ''
 
-  switch (env) {
-    case 'dev':
-    case 'development':
-      configPath = './dev'
-      break
-    case 'test':
-    case 'testing':
-      configPath = './testing'
-      break
-    default:
-      configPath = '/dev'
-  }
+	switch (env) {
+		case 'dev':
+		case 'development':
+			configPath = './dev'
+			break
+		case 'test':
+		case 'testing':
+			configPath = './testing'
+			break
+		default:
+			configPath = '/dev'
+	}
 
-  const config = require(configPath)
+	const config = require(configPath)
 
-  return config.default
+	return config.default
 }
 
 export default merge(baseConfig, getCurrentConfig(env))

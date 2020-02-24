@@ -1,8 +1,8 @@
 import {
-  createUserRepository,
-  findUserByEmailOrUsernameRepository,
-  findUserByIdRepository,
-  updateUserRepository
+	createUserRepository,
+	findUserByEmailOrUsernameRepository,
+	findUserByIdRepository,
+	updateUserRepository
 } from 'repository/user'
 
 import { generateToken } from 'utils/auth'
@@ -11,30 +11,30 @@ export const findUserByIdService = id => findUserByIdRepository(id)
 
 export const updateUserService = (id, args) => updateUserRepository(id, args)
 
-export const findUserByEmailOrUsernameService = args =>
-  findUserByEmailOrUsernameRepository(args)
+export const findUserByEmailOrUsernameService = ({ email, username }) =>
+	findUserByEmailOrUsernameRepository({ email, username })
 
 export const createUserService = async args => {
-  if (await findUserByEmailOrUsernameService(args)) {
-    throw new Error('user_already_exists')
-  }
+	if (await findUserByEmailOrUsernameService(args)) {
+		throw new Error('user_already_exists')
+	}
 
-  return createUserRepository(args)
+	return createUserRepository(args)
 }
 
 export const signInService = async args => {
-  const user = await findUserByEmailOrUsernameService(args)
+	const user = await findUserByEmailOrUsernameService(args)
 
-  if (!user) {
-    throw new Error('user_not_found')
-  }
+	if (!user) {
+		throw new Error('user_not_found')
+	}
 
-  if (!(await user.checkPassword(args.password))) {
-    throw new Error('invalid_password')
-  }
+	if (!(await user.checkPassword(args.password))) {
+		throw new Error('invalid_password')
+	}
 
-  return {
-    user,
-    token: generateToken({ id: user.id })
-  }
+	return {
+		user,
+		token: generateToken({ id: user.id })
+	}
 }
