@@ -7,6 +7,7 @@ import {
 
 import { FRIEND_REQUEST_STATUS } from 'utils/constants'
 import { createFriendBetweenUsersService } from './friend'
+import { createTextChannelService } from './text-channel'
 import { findUserByEmailOrUsernameService } from './user'
 
 export const getFriendRequestsService = senderId =>
@@ -32,9 +33,12 @@ export const acceptFriendRequestService = async (userId, id) => {
 		FRIEND_REQUEST_STATUS.ACCEPTED
 	)
 
+	const textChannel = await createTextChannelService('Chat')
+
 	await createFriendBetweenUsersService(
 		friendRequest.sender,
-		friendRequest.receiver
+		friendRequest.receiver,
+		textChannel._id
 	)
 
 	return updatedFriendRequest

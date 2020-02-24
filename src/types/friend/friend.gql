@@ -1,3 +1,4 @@
 type Friend {
 	user: User!
+	textChannel: TextChannel!
 }

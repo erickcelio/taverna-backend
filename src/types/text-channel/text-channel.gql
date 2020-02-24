@@ -1,24 +1,24 @@
 type TextChannel {
-  _id: ID!
-  name: String!
-  messages: [Message]
+	_id: ID!
+	name: String!
+	messages: [Message]
 }
 
 type Message {
-  textChannel: TextChannel!
-  sender: User!
-  content: String!
+	textChannelId: ID!
+	sender: User!
+	content: String!
 }
 
 input newMessageInput {
-  textChannelId: ID!
-  content: String!
+	textChannelId: ID!
+	content: String!
 }
 
 extend type Mutation {
-  sendMessage(input: newMessageInput): Message! @isAuth
+	sendMessage(input: newMessageInput): Message @isAuth
 }
 
 type Subscription {
-  sendedMessage(channelId: ID!): Message
+	sendedMessage(channelsIds: [ID!]!): Message
 }

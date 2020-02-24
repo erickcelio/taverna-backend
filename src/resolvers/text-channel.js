@@ -25,7 +25,9 @@ export default {
 			subscribe: withFilter(
 				() => pubSub.asyncIterator('sendedMessage'),
 				(payload, variables) =>
-					variables.channelId === payload.sendedMessage.textChannelId
+					variables.channelsIds.some(
+						channelId => channelId === payload.sendedMessage.textChannelId
+					)
 			)
 		}
 	}

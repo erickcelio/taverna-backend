@@ -31,7 +31,8 @@ const userSchema = new Schema(
 		groups: [{ type: Types.ObjectId, ref: 'Group' }],
 		friends: [
 			{
-				user: { type: Types.ObjectId, ref: 'User' }
+				user: { type: Types.ObjectId, ref: 'User' },
+				textChannel: { type: Types.ObjectId, ref: 'TextChannel' }
 			}
 		]
 	},

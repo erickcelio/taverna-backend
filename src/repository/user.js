@@ -14,11 +14,12 @@ export const findUserByEmailOrUsernameRepository = ({ email, username }) =>
 export const createUserRepository = args =>
 	User.create({ ...args }).then(user => user.toObject())
 
-export const addFriendOnUserRepository = (userId, friend) =>
+export const addFriendOnUserRepository = (userId, friendId, textChannelId) =>
 	User.findByIdAndUpdate(userId, {
 		$push: {
 			friends: {
-				user: friend
+				user: friendId,
+				textChannel: textChannelId
 			}
 		}
 	})
