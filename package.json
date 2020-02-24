@@ -1,78 +1,78 @@
 {
-  "name": "taverna-backend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "build": "babel src --out-dir dist",
-    "test": "cross-env NODE_ENV=testing jest --forceExit --detectOpenHandles --silent",
-    "dev": "nodemon --exec babel-node src/index.js",
-    "start": "rimraf dist && yarn build && node dist/index.js"
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.0.0",
-    "@babel/core": "^7.0.0",
-    "@babel/node": "^7.6.2",
-    "@babel/plugin-proposal-class-properties": "^7.0.0",
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
-    "@babel/preset-env": "^7.0.0",
-    "babel-core": "7.0.0-bridge.0",
-    "babel-eslint": "^8.2.1",
-    "babel-jest": "^23.4.2",
-    "babel-plugin-root-import": "^6.4.1",
-    "cross-env": "^5.2.0",
-    "eslint": "^4.15.0",
-    "eslint-config-prettier": "^2.9.0",
-    "eslint-config-standard": "^11.0.0",
-    "eslint-friendly-formatter": "^3.0.0",
-    "eslint-loader": "^1.7.1",
-    "eslint-plugin-import": "^2.13.0",
-    "eslint-plugin-jest": "^21.15.1",
-    "eslint-plugin-node": "^7.0.1",
-    "eslint-plugin-prettier": "^2.6.2",
-    "eslint-plugin-promise": "^3.8.0",
-    "eslint-plugin-standard": "^3.1.0",
-    "graphql-codegen-core": "^0.14.5",
-    "jest": "^23.6.0",
-    "nodemon": "^1.18.3",
-    "prettier": "^1.15.2",
-    "rimraf": "^2.6.2",
-    "supertest": "^3.3.0"
-  },
-  "jest": {
-    "verbose": true,
-    "testURL": "http://localhost/",
-    "testEnvironment": "node",
-    "setupTestFrameworkScriptFile": "<rootDir>/test-db-setup.js",
-    "testPathIgnorePatterns": [
-      "dist/"
-    ],
-    "restoreMocks": true
-  },
-  "dependencies": {
-    "apollo-server": "^2.2.5",
-    "bcrypt": "^3.0.2",
-    "cuid": "^2.1.4",
-    "dotenv": "^8.1.0",
-    "graphql": "^14.0.2",
-    "graphql-import": "^0.7.1",
-    "graphql-subscriptions": "^1.1.0",
-    "graphql-tools": "^4.0.3",
-    "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.11",
-    "mongoose": "^5.3.14",
-    "subscriptions-transport-ws": "^0.9.16",
-    "validator": "^10.9.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/erickcelio/taverna-backend.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/erickcelio/taverna-backend/issues"
-  },
-  "homepage": "https://github.com/erickcelio/taverna-backend#readme"
+	"name": "taverna-backend",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"build": "babel src --out-dir dist",
+		"test": "cross-env NODE_ENV=testing jest --forceExit --detectOpenHandles --silent",
+		"dev": "nodemon --exec babel-node src/index.js",
+		"start": "rimraf dist && npm run build && node dist/index.js"
+	},
+	"devDependencies": {
+		"@babel/cli": "^7.0.0",
+		"@babel/core": "^7.0.0",
+		"@babel/node": "^7.6.2",
+		"@babel/plugin-proposal-class-properties": "^7.0.0",
+		"@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+		"@babel/preset-env": "^7.0.0",
+		"babel-core": "7.0.0-bridge.0",
+		"babel-eslint": "^8.2.1",
+		"babel-jest": "^23.4.2",
+		"babel-plugin-root-import": "^6.4.1",
+		"cross-env": "^5.2.0",
+		"eslint": "^4.15.0",
+		"eslint-config-prettier": "^2.9.0",
+		"eslint-config-standard": "^11.0.0",
+		"eslint-friendly-formatter": "^3.0.0",
+		"eslint-loader": "^1.7.1",
+		"eslint-plugin-import": "^2.13.0",
+		"eslint-plugin-jest": "^21.15.1",
+		"eslint-plugin-node": "^7.0.1",
+		"eslint-plugin-prettier": "^2.6.2",
+		"eslint-plugin-promise": "^3.8.0",
+		"eslint-plugin-standard": "^3.1.0",
+		"graphql-codegen-core": "^0.14.5",
+		"jest": "^23.6.0",
+		"nodemon": "^1.18.3",
+		"prettier": "^1.15.2",
+		"rimraf": "^2.6.2",
+		"supertest": "^3.3.0"
+	},
+	"jest": {
+		"verbose": true,
+		"testURL": "http://localhost/",
+		"testEnvironment": "node",
+		"setupTestFrameworkScriptFile": "<rootDir>/test-db-setup.js",
+		"testPathIgnorePatterns": [
+			"dist/"
+		],
+		"restoreMocks": true
+	},
+	"dependencies": {
+		"apollo-server": "^2.2.5",
+		"bcrypt": "^3.0.2",
+		"cuid": "^2.1.4",
+		"dotenv": "^8.1.0",
+		"graphql": "^14.0.2",
+		"graphql-import": "^0.7.1",
+		"graphql-subscriptions": "^1.1.0",
+		"graphql-tools": "^4.0.3",
+		"jsonwebtoken": "^8.5.1",
+		"lodash": "^4.17.11",
+		"mongoose": "^5.3.14",
+		"subscriptions-transport-ws": "^0.9.16",
+		"validator": "^10.9.0"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/erickcelio/taverna-backend.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/erickcelio/taverna-backend/issues"
+	},
+	"homepage": "https://github.com/erickcelio/taverna-backend#readme"
 }

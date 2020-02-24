@@ -36,7 +36,7 @@ const getCurrentConfig = env => {
 			configPath = './testing'
 			break
 		default:
-			configPath = '/dev'
+			configPath = './dev'
 	}
 
 	const config = require(configPath)
