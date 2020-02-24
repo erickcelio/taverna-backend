@@ -1,101 +1,104 @@
 import { buildSchema } from 'graphql'
-import config from './../../../config'
-import { loadTypeSchema } from '../../../utils/schema'
+import config from '../../../config'
+import { loadTypeSchema } from 'utils/schema'
 import { mockServer } from 'graphql-tools'
 import { schemaToTemplateContext } from 'graphql-codegen-core'
 
 describe('Group schema', () => {
-  let schema, typeDefs
-  beforeAll(async () => {
-    const root = `
+	let schema, typeDefs
+
+	beforeAll(async () => {
+		const root = `
       schema {
         query: Query
         mutation: Mutation
       }
 
     `
-    const typeSchemas = await Promise.all(config.types.map(loadTypeSchema))
-    typeDefs = root + typeSchemas.join(' ')
-    schema = schemaToTemplateContext(buildSchema(typeDefs))
-  })
-  describe('groupType:', () => {
-    test('Group has base fields', () => {
-      let type = schema.types.find(t => {
-        return t.name === 'Group'
-      })
+		const typeSchemas = await Promise.all(config.types.map(loadTypeSchema))
+		typeDefs = root + typeSchemas.join(' ')
+		schema = schemaToTemplateContext(buildSchema(typeDefs))
+	})
 
-      expect(type).toBeTruthy()
+	describe('groupType:', () => {
+		test('Group has base fields', () => {
+			let type = schema.types.find(t => {
+				return t.name === 'Group'
+			})
 
-      const baseFields = {
-        _id: 'ID!',
-        name: 'String!',
-        image: 'String',
-        owner: 'User!',
-        roles: '[Role]',
-        members: '[Member]'
-      }
+			expect(type).toBeTruthy()
 
-      type.fields.forEach(field => {
-        const type = baseFields[field.name]
-        expect(field.raw).toBe(type)
-      })
-    })
+			const baseFields = {
+				_id: 'ID!',
+				name: 'String!',
+				image: 'String',
+				owner: 'User!',
+				roles: '[Role]',
+				members: '[Member]',
+				textChannels: '[TextChannel]'
+			}
 
-    test('Member has base fields', () => {
-      let type = schema.types.find(t => {
-        return t.name === 'Member'
-      })
+			type.fields.forEach(field => {
+				const type = baseFields[field.name]
+				expect(field.raw).toBe(type)
+			})
+		})
 
-      expect(type).toBeTruthy()
+		test('Member has base fields', () => {
+			let type = schema.types.find(t => {
+				return t.name === 'Member'
+			})
 
-      const baseFields = {
-        _id: 'ID!',
-        member: 'User!',
-        roles: '[Role]'
-      }
+			expect(type).toBeTruthy()
 
-      type.fields.forEach(field => {
-        const type = baseFields[field.name]
-        expect(field.raw).toBe(type)
-      })
-    })
+			const baseFields = {
+				_id: 'ID!',
+				member: 'User!',
+				roles: '[Role]'
+			}
 
-    test('newGroupInput has correct fields', () => {
-      const input = schema.inputTypes.find(i => i.name === 'NewGroupInput')
+			type.fields.forEach(field => {
+				const type = baseFields[field.name]
+				expect(field.raw).toBe(type)
+			})
+		})
 
-      expect(input).toBeTruthy()
+		test('newGroupInput has correct fields', () => {
+			const input = schema.inputTypes.find(i => i.name === 'NewGroupInput')
 
-      const fields = {
-        name: 'String!',
-        image: 'String'
-      }
+			expect(input).toBeTruthy()
 
-      input.fields.forEach(field => {
-        const type = fields[field.name]
-        expect(field.raw).toBe(type)
-      })
-    })
+			const fields = {
+				name: 'String!',
+				image: 'String'
+			}
 
-    test('UpdateGroupInput has correct fields', () => {
-      const input = schema.inputTypes.find(i => i.name === 'UpdateGroupInput')
+			input.fields.forEach(field => {
+				const type = fields[field.name]
+				expect(field.raw).toBe(type)
+			})
+		})
 
-      expect(input).toBeTruthy()
+		test('UpdateGroupInput has correct fields', () => {
+			const input = schema.inputTypes.find(i => i.name === 'UpdateGroupInput')
 
-      const fields = {
-        groupId: 'ID!',
-        name: 'String',
-        image: 'String'
-      }
+			expect(input).toBeTruthy()
 
-      input.fields.forEach(field => {
-        const type = fields[field.name]
-        expect(field.raw).toBe(type)
-      })
-    })
+			const fields = {
+				groupId: 'ID!',
+				name: 'String',
+				image: 'String'
+			}
 
-    it('getGroup query', async () => {
-      const server = mockServer(typeDefs)
-      const query = `
+			input.fields.forEach(field => {
+				const type = fields[field.name]
+				expect(field.raw).toBe(type)
+			})
+		})
+
+		it('getGroup query', async () => {
+			const server = mockServer(typeDefs)
+			const query = `
         {
           getGroup(groupId: "384hsd") {
             name
@@ -118,14 +121,14 @@ describe('Group schema', () => {
           }
         }
       `
-      await expect(server.query(query)).resolves.toBeTruthy()
-      const { errors } = await server.query(query)
-      expect(errors).not.toBeTruthy()
-    })
+			await expect(server.query(query)).resolves.toBeTruthy()
+			const { errors } = await server.query(query)
+			expect(errors).not.toBeTruthy()
+		})
 
-    it('getMyGroups query', async () => {
-      const server = mockServer(typeDefs)
-      const query = `
+		it('getMyGroups query', async () => {
+			const server = mockServer(typeDefs)
+			const query = `
         {
           getMyGroups {
             name
@@ -148,14 +151,14 @@ describe('Group schema', () => {
           }
         }
       `
-      await expect(server.query(query)).resolves.toBeTruthy()
-      const { errors } = await server.query(query)
-      expect(errors).not.toBeTruthy()
-    })
+			await expect(server.query(query)).resolves.toBeTruthy()
+			const { errors } = await server.query(query)
+			expect(errors).not.toBeTruthy()
+		})
 
-    it('CreateNewGroup mutation', async () => {
-      const server = mockServer(typeDefs)
-      const query = `
+		it('CreateNewGroup mutation', async () => {
+			const server = mockServer(typeDefs)
+			const query = `
         mutation CreateNewGroup($input: NewGroupInput!) {
           createGroup(input: $input) {
             name
@@ -167,20 +170,20 @@ describe('Group schema', () => {
           }
         }
       `
-      const vars = {
-        input: {
-          name: 'JS Group',
-          image: 'https://image.com'
-        }
-      }
-      await expect(server.query(query, vars)).resolves.toBeTruthy()
-      const { errors } = await server.query(query, vars)
-      expect(errors).not.toBeTruthy()
-    })
+			const vars = {
+				input: {
+					name: 'JS Group',
+					image: 'https://image.com'
+				}
+			}
+			await expect(server.query(query, vars)).resolves.toBeTruthy()
+			const { errors } = await server.query(query, vars)
+			expect(errors).not.toBeTruthy()
+		})
 
-    it('UpdateGroup mutation', async () => {
-      const server = mockServer(typeDefs)
-      const query = `
+		it('UpdateGroup mutation', async () => {
+			const server = mockServer(typeDefs)
+			const query = `
         mutation UpdateGroup($input: UpdateGroupInput!) {
           updateGroup(input: $input) {
             name
@@ -188,21 +191,21 @@ describe('Group schema', () => {
           }
         }
       `
-      const vars = {
-        input: {
-          groupId: '1ep2i3028asdas1',
-          name: 'JS2 Group',
-          image: 'https://image2.com'
-        }
-      }
-      await expect(server.query(query, vars)).resolves.toBeTruthy()
-      const { errors } = await server.query(query, vars)
-      expect(errors).not.toBeTruthy()
-    })
+			const vars = {
+				input: {
+					groupId: '1ep2i3028asdas1',
+					name: 'JS2 Group',
+					image: 'https://image2.com'
+				}
+			}
+			await expect(server.query(query, vars)).resolves.toBeTruthy()
+			const { errors } = await server.query(query, vars)
+			expect(errors).not.toBeTruthy()
+		})
 
-    it('DeleteGroup mutation', async () => {
-      const server = mockServer(typeDefs)
-      const query = `
+		it('DeleteGroup mutation', async () => {
+			const server = mockServer(typeDefs)
+			const query = `
         mutation DeleteGroup {
           deleteGroup(groupId: "d1e4asd") {
             _id
@@ -211,14 +214,14 @@ describe('Group schema', () => {
           }
         }
       `
-      const vars = {
-        input: {
-          groupId: '131239u19qdsqdr'
-        }
-      }
-      await expect(server.query(query, vars)).resolves.toBeTruthy()
-      const { errors } = await server.query(query, vars)
-      expect(errors).not.toBeTruthy()
-    })
-  })
+			const vars = {
+				input: {
+					groupId: '131239u19qdsqdr'
+				}
+			}
+			await expect(server.query(query, vars)).resolves.toBeTruthy()
+			const { errors } = await server.query(query, vars)
+			expect(errors).not.toBeTruthy()
+		})
+	})
 })

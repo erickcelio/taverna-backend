@@ -22,14 +22,17 @@ export const createUserService = async args => {
 	return createUserRepository(args)
 }
 
-export const signInService = async args => {
-	const user = await findUserByEmailOrUsernameService(args)
+export const signInService = async ({ username, password }) => {
+	const user = await findUserByEmailOrUsernameService({
+		email: username,
+		username
+	})
 
 	if (!user) {
 		throw new Error('user_not_found')
 	}
 
-	if (!(await user.checkPassword(args.password))) {
+	if (!(await user.checkPassword(password))) {
 		throw new Error('invalid_password')
 	}
 

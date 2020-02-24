@@ -9,7 +9,10 @@ export const updateUserRepository = (id, args) =>
 		.exec()
 
 export const findUserByEmailOrUsernameRepository = ({ email, username }) =>
-	User.find().findByEmailOrUsername({ email, username })
+	User.find().findByEmailOrUsername({
+		email,
+		username
+	})
 
 export const createUserRepository = args =>
 	User.create({ ...args }).then(user => user.toObject())
