@@ -8,7 +8,7 @@ type User {
 }
 
 input SignInInput {
-  username: String!,
+  username: String!
   password: String!
 }
 
@@ -31,7 +31,7 @@ input UpdateUserInput {
 
 type Query {
   me: User! @isAuth
-  signIn(input: SignInInput): SignInOutput  
+  signIn(input: SignInInput): SignInOutput
 }
 
 type Mutation {

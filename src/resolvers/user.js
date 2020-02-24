@@ -25,7 +25,6 @@ export default {
     signUp
   },
   User: {
-    __resolveType(member) {},
     groups: ({ groups }) => getGroupsByIdsService(groups)
   }
 }

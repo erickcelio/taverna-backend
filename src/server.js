@@ -1,12 +1,16 @@
+import { execute, subscribe } from 'graphql'
+
 import { ApolloServer } from 'apollo-server'
+import { SubscriptionServer } from 'subscriptions-transport-ws'
 import { authenticate } from 'utils/auth'
 import config from './config'
 import { connect } from './db'
+import { createServer } from 'http'
 import { loadResolver } from 'utils/resolver'
 import { loadTypeSchema } from 'utils/schema'
 import schemaDirectives from 'types/directives'
 
-const types = ['directives', 'user', 'role', 'group']
+const types = ['directives', 'user', 'role', 'group', 'text-channel']
 
 export const start = async () => {
   const typeDefs = await Promise.all(types.map(loadTypeSchema))
@@ -18,7 +22,32 @@ export const start = async () => {
     schemaDirectives,
     introspection: true,
     playground: true,
-    context: async ({ req }) => ({ user: await authenticate(req) })
+    context: async ({ req, connection }) => {
+      if (connection) {
+        return {
+          ...connection.context
+        }
+      } else {
+        return { user: await authenticate(req) }
+      }
+    }
+  })
+
+  // Wrap the Express server
+  const ws = createServer(server)
+  ws.listen(3004, () => {
+    console.log(`GraphQL WS Server is now running on http://localhost:3004`)
+    return new SubscriptionServer(
+      {
+        execute,
+        subscribe,
+        schema: typeDefs
+      },
+      {
+        server: ws,
+        path: '/subscriptions'
+      }
+    )
   })
 
   await connect(config.dbUrl)

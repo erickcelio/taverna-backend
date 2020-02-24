@@ -1,5 +1,5 @@
 type Member {
-  member: User!,
+  member: User!
   roles: [Role]
 }
 
@@ -10,16 +10,17 @@ type Group {
   owner: User!
   roles: [Role]
   members: [Member]
+  textChannels: [TextChannel]
 }
 
 input NewGroupInput {
-  name: String!,
+  name: String!
   image: String
 }
 
 input UpdateGroupInput {
   groupId: ID!
-  name: String,
+  name: String
   image: String
 }
 
@@ -30,6 +31,7 @@ extend type Query {
 
 extend type Mutation {
   createGroup(input: NewGroupInput!): Group! @isAuth
-  updateGroup(input: UpdateGroupInput!): Group! @hasRoleInGroup(roles: ["isAdmin", "canManageServer"])
+  updateGroup(input: UpdateGroupInput!): Group!
+    @hasRoleInGroup(roles: ["isAdmin", "canManageServer"])
   deleteGroup(groupId: ID!): Group!
 }

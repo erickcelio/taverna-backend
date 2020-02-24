@@ -1,6 +1,7 @@
 import { Schema, Types, model } from 'mongoose'
 
 import Role from './role'
+import TextChannel from './textChannel'
 import User from './user'
 
 const groupSchema = new Schema(
@@ -37,6 +38,12 @@ const groupSchema = new Schema(
           }
         ]
       }
+    ],
+    textChannels: [
+      {
+        type: Types.ObjectId,
+        ref: 'TextChannel'
+      }
     ]
   },
   { timestamps: true }
@@ -61,21 +68,12 @@ groupSchema.pre('save', async function(next) {
     canManageMessages: true
   })
 
-  await Role.create({
-    name: 'Member',
-    isAdmin: false,
-    canManageServer: false,
-    canManageRoles: false,
-    canManageChannels: false,
-    canKickMember: false,
-    canBanMembers: false,
-    canChangeNickname: false,
-    canReadTextChannels: true,
-    canSendMessages: true,
-    canManageMessages: false
+  const textChannel = await TextChannel.create({
+    name: 'Text Chat'
   })
 
   this.roles.push(newRole._id)
+  this.textChannels.push(textChannel._id)
 
   this.members.push({
     member: this.owner,

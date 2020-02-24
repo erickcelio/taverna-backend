@@ -7,6 +7,7 @@ import {
 } from 'services/group'
 
 import { findRolesByIdsService } from 'services/role'
+import { findTextChannelsByIdsRepository } from 'repository/text-channel'
 import { findUserByIdService } from 'services/user'
 
 const getGroup = (_, args) => getGroupByIdService(args.groupId)
@@ -31,12 +32,12 @@ export default {
     deleteGroup
   },
   Group: {
-    __resolveType(group) {},
     owner: ({ owner }) => findUserByIdService(owner),
-    roles: ({ roles }) => findRolesByIdsService(roles)
+    roles: ({ roles }) => findRolesByIdsService(roles),
+    textChannels: ({ textChannels }) =>
+      findTextChannelsByIdsRepository(textChannels)
   },
   Member: {
-    __resolveType(member) {},
     member: ({ member }) => findUserByIdService(member),
     roles: ({ roles }) => findRolesByIdsService(roles)
   }

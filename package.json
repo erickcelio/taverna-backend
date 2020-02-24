@@ -56,10 +56,12 @@
     "dotenv": "^8.1.0",
     "graphql": "^14.0.2",
     "graphql-import": "^0.7.1",
+    "graphql-subscriptions": "^1.1.0",
     "graphql-tools": "^4.0.3",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.11",
     "mongoose": "^5.3.14",
+    "subscriptions-transport-ws": "^0.9.16",
     "validator": "^10.9.0"
   },
   "repository": {
